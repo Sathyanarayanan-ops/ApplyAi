@@ -19,3 +19,25 @@ async def upload_job_links(file: UploadFile = File(...)):
     
     job_links = await process_file(file)
     return {"message": "Job links processed successfully", "total_links": len(job_links)}
+
+
+from app.services.automation import apply_to_job_smart
+
+@router.post("/apply-smart/")
+async def apply_smart_jobs(jobs: list[dict]):
+    """
+    Apply to jobs intelligently using Llama (via Groq).
+
+    Args:
+        jobs (list): A list of dictionaries containing job links and descriptions.
+
+    Returns:
+        dict: Status of applications for each job.
+    """
+    results = []
+    for job in jobs:
+        link = job["link"]
+        description = job["description"]
+        result = apply_to_job_smart(link, description)
+        results.append({"link": link, "status": result})
+    return {"results": results}

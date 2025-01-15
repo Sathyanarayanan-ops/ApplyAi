@@ -1,13 +1,12 @@
 from pydantic_settings import BaseSettings
 
 class Settings(BaseSettings):
-    app_name: str = "Job Application Bot"
+    app_name: str = "Job Application Bot"  # Add this attribute
     environment: str = "development"
-    api_key: str
-    database_url: str
+    groq_api_key: str
+    groq_endpoint: str = "https://api.groqcloud.com"
 
     class Config:
         env_file = ".env"
 
-# Create a settings instance
 settings = Settings()
